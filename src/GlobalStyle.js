@@ -63,6 +63,9 @@ li {
 button{
   cursor: pointer;
   display: inline-block;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 a {

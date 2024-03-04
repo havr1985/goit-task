@@ -1,5 +1,11 @@
+import { FavoriteCarsList } from "../components/FavoriteCarsList/FavoriteCarsItem";
+
 const FavoritePage = () => {
-  return <div>Favorite page</div>;
+  return (
+    <main>
+      <FavoriteCarsList/>
+    </main>
+  );
 };
 
 export default FavoritePage;
