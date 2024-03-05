@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFavorite } from "../../redux/favoriteSlice";
 import { selectFavoriteCars } from "../../redux/carsSelectors";
+import { CustomModal } from "../Modal/CustomModal";
 
 export const CarsListItems = (car) => {
   const {
@@ -29,12 +30,24 @@ export const CarsListItems = (car) => {
 
   const dispatch = useDispatch()
 
-  const [pressed, setPressed] = useState(isFavoriteCar)
+  const [pressed, setPressed] = useState(isFavoriteCar);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const handlerPressed = () => {
     setPressed(prev => !prev)
     dispatch(changeFavorite(car.car));
 
+  }
+
+  const openModal = () => {
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+    document.body.style.overflow = "auto";
+    
   }
 
     return (
@@ -51,10 +64,16 @@ export const CarsListItems = (car) => {
         <ContBox>
           <p>{newAddress} | {rentalCompany} | {type} | {make} | {mileage} | {accessories[0]}</p>
         </ContBox>
-        <MoreBtn type="button">Learn more</MoreBtn>
+        <MoreBtn type="button" onClick={openModal}>Learn more</MoreBtn>
         <HeartBtn onClick={handlerPressed} >
          {pressed ? (<Heart color="#3470FF" fill="#3470FF"/>) : (<Heart color="white"/>)} 
         </HeartBtn>
+        {modalIsOpen && (<CustomModal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          openModal={openModal}
+          car={car}
+        />)}
       </div>
     );
 }

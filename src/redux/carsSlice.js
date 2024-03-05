@@ -1,9 +1,10 @@
 import { createSlice, isAllOf, isAnyOf } from "@reduxjs/toolkit"
-import { allCarsThunk } from "./carsOperation"
+import { allCarsThunk, arrayCarsThunk } from "./carsOperation"
 
 
 const INITIAL_STATE = {
     cars: [],
+    carsArr: [],
     isLoading: false,
     error: null,
     page: 1,
@@ -23,9 +24,15 @@ const carsSlice = createSlice({
             
                 state.cars = [...state.cars, ...action.payload];
             })
+            .addCase(arrayCarsThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.carsArr = action.payload
+            })
             .addMatcher(
                 isAllOf(
                     allCarsThunk.pending,
+                    arrayCarsThunk.pending,
                 ),
                 state => {
                     state.isLoading = true;
@@ -35,6 +42,7 @@ const carsSlice = createSlice({
             .addMatcher(
                 isAnyOf(
                     allCarsThunk.rejected,
+                    arrayCarsThunk.rejected,
                 ),
                 (state, action) => {
                     state.isLoading = false;

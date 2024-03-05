@@ -1,12 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllCars, selectIsLoading } from "../../redux/carsSelectors";
+import { selectAllCars, selectIsLoading, selectVisibleCars } from "../../redux/carsSelectors";
 import { CarsListItems } from "../CarsListItems/CarsListItems";
 import { Container, Item, ItemBox, LoadMore } from "./CardList.styled";
 import { useEffect, useState } from "react";
-import { allCarsThunk } from "../../redux/carsOperation";
+import { allCarsThunk, arrayCarsThunk } from "../../redux/carsOperation";
 
 export const CarsList = () => {
-  const cars = useSelector(selectAllCars);
+  let cars = useSelector(selectAllCars);
+  const visible = useSelector(selectVisibleCars)
+  console.log(visible)
+  if (visible) {
+    cars = visible
+  }
   const isLoading = useSelector(selectIsLoading);
   const [page, setPage] = useState(1)
 
@@ -15,6 +20,10 @@ export const CarsList = () => {
   useEffect(() => {
     dispatch(allCarsThunk(page));
   }, [dispatch, page]);
+
+  useEffect(() => {
+    dispatch(arrayCarsThunk())
+  }, [dispatch])
 
   const clickLoadMore = () => {
     setPage(prev => prev + 1)
@@ -27,6 +36,7 @@ export const CarsList = () => {
     <Container>
       <ItemBox>
         {isLoading && <div>Loading...</div>}
+        
         {cars.map((car) => <Item key={car.id}>
           <CarsListItems car={car} />
         </Item>

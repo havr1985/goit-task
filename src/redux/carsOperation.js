@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { requiredAllCars } from "../components/service/api";
+import { requiredAllCars, requiredArrCars } from "../components/service/api";
 
 export const allCarsThunk = createAsyncThunk(
     'cars/allcars',
@@ -14,3 +14,15 @@ export const allCarsThunk = createAsyncThunk(
         }
     }
 );
+export const arrayCarsThunk = createAsyncThunk(
+    'cars/arrayCars',
+    async (_, thunkAPI) => {
+        try {
+            const arrCars = await requiredArrCars()
+            return arrCars;
+        }
+        catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
+    }
+)

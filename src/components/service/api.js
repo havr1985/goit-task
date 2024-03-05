@@ -8,3 +8,8 @@ export const requiredAllCars = async (page) => {
     const { data }  = await instance.get(`/cars?page=${page}&limit=12`);
     return data;
 };
+
+export const requiredArrCars = async () => {
+  const { data } = await instance.get('/cars');
+  return data
+}
