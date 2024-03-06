@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllCars, selectIsLoading, selectVisibleCars } from "../../redux/carsSelectors";
 import { CarsListItems } from "../CarsListItems/CarsListItems";
-import { Container, Item, ItemBox, LoadMore } from "./CardList.styled";
+import { Container, FiltersBox, Item, ItemBox, LoadMore } from "./CardList.styled";
 import { useEffect, useState } from "react";
 import { allCarsThunk, arrayCarsThunk } from "../../redux/carsOperation";
+import { Filters } from "../Filters/Filters";
+import { Loader } from "../Loader";
 
 export const CarsList = () => {
   let cars = useSelector(selectAllCars);
   const visible = useSelector(selectVisibleCars)
-  console.log(visible)
+
   if (visible) {
     cars = visible
   }
@@ -34,17 +36,26 @@ export const CarsList = () => {
 
   return (
     <Container>
+      <FiltersBox>
+        <Filters />
+      </FiltersBox>
+
       <ItemBox>
-        {isLoading && <div>Loading...</div>}
-        
-        {cars.map((car) => <Item key={car.id}>
-          <CarsListItems car={car} />
-        </Item>
-            
-        )}
+        {isLoading && <Loader />}
+
+        {cars.map((car) => (
+          <Item key={car.id}>
+            <CarsListItems car={car} />
+          </Item>
+        ))}
       </ItemBox>
-      {isDivisible ? (<LoadMore type="button" onClick={clickLoadMore}>Load more</LoadMore>): ''}
-      
+      {isDivisible && cars.length ? (
+        <LoadMore type="button" onClick={clickLoadMore}>
+          Load more
+        </LoadMore>
+      ) : (
+        ""
+      )}
     </Container>
   );
 };

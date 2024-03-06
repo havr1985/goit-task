@@ -14,7 +14,7 @@ export const ItemBox = styled.ul`
   gap: 29px;
 `;
 export const Container = styled.div`
-
+margin-top: 50px;
 `
 export const LoadMore = styled.button`
   display: block;
@@ -23,3 +23,15 @@ export const LoadMore = styled.button`
   color: #3470ff;
   border-bottom: 1px solid #3470ff;
 `;
+
+export const FiltersBox = styled.div`
+width: 1440px;
+margin: 50px auto;
+display: flex;
+justify-content: center;
+`
+export const NotCars = styled.div`
+text-align: center;
+font-size: 30px;
+font-weight: 700;
+`

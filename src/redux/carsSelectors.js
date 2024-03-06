@@ -12,18 +12,31 @@ export const selectFavoriteCars = state => state.favorite.favorite;
 export const selectVisibleCars = createSelector(
     [selectArrayCars, selectFilters],
     (cars, filters) => {
-        let visibleCars = cars
-        if (filters.makeSelect) {
-            visibleCars = visibleCars.filter((item) => item.make === filters.makeSelect);
+        
+        if (filters.makeSelect && filters.priceSelect) {
+          let visibleCars = cars.filter(
+            (item) => item.make === filters.makeSelect
+          );
+            visibleCars = visibleCars.filter(
+              (item) => item.rentalPrice.slice(1, 10) === filters.priceSelect
+            );
+            return visibleCars
             
         }
         if (filters.priceSelect) {
-             visibleCars = cars.filter(
+             const visibleCars = cars.filter(
                 (item) => 
                    item.rentalPrice.slice((1), 10) === filters.priceSelect
 
-            );
+             );
+            return visibleCars;
         }
-        return visibleCars
+        if (filters.makeSelect) {
+            const visibleCars = cars.filter(
+              (item) => item.make === filters.makeSelect
+            );
+            return visibleCars
+        }
+        
     }
 )
